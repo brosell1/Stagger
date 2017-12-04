@@ -1,6 +1,3 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
 var Twit = require('twit')
 
 var T = new Twit({
@@ -11,16 +8,15 @@ var T = new Twit({
   timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
 })
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.sendFile(path.join(__dirname + '../../../test/twit.html'));
-});
-
-router.post('/', function(req, res) {
-  T.post('statuses/update', { status: req.body.value }, function(err, data, response) {
+function sendTweet() {
+  T.post('statuses/update', { status: document.getElementById("tweet").value }, function(err, data, response) {
     console.log(data.status);
-    res.json({payload: data})
   })
-});
+}
 
-module.exports = router;
+document.addEventListener("submit", event => {
+  event.preventDefault();
+  T.post('statuses/update', { status: document.getElementById("tweet").value }, function(err, data, response) {
+    console.log(data.status);
+  })
+})
