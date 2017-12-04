@@ -17,8 +17,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res) {
-  T.post('statuses/update', { status: document.getElementById("tweet").value }, function(err, data, response) {
+  T.post('statuses/update', { status: req.body.value }, function(err, data, response) {
     console.log(data.status);
+    res.json({payload: data})
   })
 });
 
