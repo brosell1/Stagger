@@ -13,7 +13,7 @@ var T = new Twit({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.sendFile(path.join(__dirname + '../../../test/twit.html'));
+  res.send("You've gone to the wrong place.");
 });
 
 router.post('/', function(req, res) {
