@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var Twit = require('twit')
+var Twit = require('twit');
+var fs = require('fs');
 
 var T = new Twit({
   consumer_key:         'UhOzvOrUNmsqKZDLoBIaxyZsd',
@@ -16,11 +17,18 @@ router.get('/', function(req, res, next) {
   res.send("You've gone to the wrong place.");
 });
 
-router.post('/', function(req, res) {
-  T.post('statuses/update', { status: req.body.value }, function(err, data, response) {
-    console.log(data.status);
+router.post('/text', function(req, res) {
+  T.post('statuses/update', { status: req.body.tweet }, (err, data, response) => {
+    console.log("Sent a text tweet");
     res.json({payload: data})
   })
+});
+
+router.post('/media', function(req, res) {
+    T.postMediaChunked({ file_path: req.body.media }, function (err, data, response) {
+      console.log(data)
+      res.json({payload: data})
+    })
 });
 
 module.exports = router;
