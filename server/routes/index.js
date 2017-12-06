@@ -1,16 +1,20 @@
+require('dotenv').config();
+var Twitter = require('twitter');
+
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var Twit = require('twit');
 var fs = require('fs');
 
-var T = new Twit({
-  consumer_key:         'UhOzvOrUNmsqKZDLoBIaxyZsd',
-  consumer_secret:      'vqNf523ksiozXXfmW5ZbpX3ToGQoUpvEWMhWdjAa4BiVAbrWes',
-  access_token:         '937705103959740416-nhtYwRpoVhFJV8z9SxtoObtJ8Z2pBKm',
-  access_token_secret:  '002FMPPh9ufJvBy63EdcgMF4vWla2ZLRfDtxYdSCEbF7L',
-  timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
-})
+var appAuth = require('../../config.js');
+
+var client = new Twitter({
+  consumer_key: appAuth.consumer_key,
+  consumer_secret: appAuth.consumer_secret,
+  access_token_key: appAuth.access_token_key,
+  access_token_secret: appAuth.access_token_secret
+});
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,14 +22,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/text', function(req, res) {
-  T.post('statuses/update', { status: req.body.tweet }, (err, data, response) => {
+  console.log(appAuth);
+  client.post('statuses/update', { status: req.body.tweet }, (err, data, response) => {
     console.log("Sent a text tweet");
     res.json({payload: data})
   })
 });
 
 router.post('/media', function(req, res) {
-    T.postMediaChunked({ file_path: req.body.media }, function (err, data, response) {
+    client.postMediaChunked({ file_path: req.body.media }, function (err, data, response) {
       console.log(data)
       res.json({payload: data})
     })
