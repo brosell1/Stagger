@@ -1,34 +1,34 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var Twit = require('twit');
+var Twitter = require('twitter');
 var fs = require('fs');
 
-var T = new Twit({
-  consumer_key:         'UhOzvOrUNmsqKZDLoBIaxyZsd',
-  consumer_secret:      'vqNf523ksiozXXfmW5ZbpX3ToGQoUpvEWMhWdjAa4BiVAbrWes',
-  access_token:         '937705103959740416-nhtYwRpoVhFJV8z9SxtoObtJ8Z2pBKm',
-  access_token_secret:  '002FMPPh9ufJvBy63EdcgMF4vWla2ZLRfDtxYdSCEbF7L',
-  timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
-})
+const client = new Twitter({
+  consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp',
+  consumer_secret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o',
+  access_token_key: '937705103959740416-rFYq9iQliFIKk8VofgIThEjPcoYEL8D',
+  access_token_secret: 'PAp1jV228XEYZV5WrIhQZEzRgUjpsZSNxnSN6GiRmTTsT'
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.send("You've gone to the wrong place.");
 });
 
-router.post('/text', function(req, res) {
-  T.post('statuses/update', { status: req.body.tweet }, (err, data, response) => {
-    console.log("Sent a text tweet");
-    res.json({payload: data})
-  })
+router.post('/text', (req, res) => {
+  client.post('statuses/update', {status: req.body.tweet}, (error, data, response) => {
+      if(error) throw error;
+      console.log(data);  // Tweet body.
+      res.json({payload: data});
+  });
 });
 
-router.post('/media', function(req, res) {
-    T.postMediaChunked({ file_path: req.body.media }, function (err, data, response) {
-      console.log(data)
-      res.json({payload: data})
-    })
-});
+// router.post('/media', function(req, res) {
+//     T.postMediaChunked({ file_path: req.body.media }, function (err, data, response) {
+//       console.log(data)
+//       res.json({payload: data})
+//     })
+// });
 
 module.exports = router;

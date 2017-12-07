@@ -49,7 +49,8 @@ class App extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(this.state.content)
-    }).then(res => res.json()).then(res => console.log(res))
+    })
+    .then(res => res.json()).then(res => console.log(res))
     this.setState({
       content:{
         tweet: "",
