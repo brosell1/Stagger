@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import Form from './components/Form.js';
-import Popup from './components/Popup.js';
+import Post from './views/Post.js'
+import Login from './views/Login.js'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 'login',
       content: {
         tweet: "",
         media: undefined,
@@ -78,8 +79,15 @@ class App extends Component {
         <code>src/App.js</code>
         and save to reload.
       </p>
-      <Form onChange={this.handleChange} onClick={this.sendTweet} tweet={this.state.content.tweet} media={this.state.content.media}/>
-      <Popup open={this.state.popup.open} closePopup={this.closePopup} statusOk={this.state.popup.statusOk}/>
+      {this.state.page === 'login' ? <Login /> : <Post
+        onChange={this.handleChange}
+        onClick={this.sendTweet}
+        tweet={this.state.content.tweet}
+        media={this.state.content.media}
+        open={this.state.popup.open}
+        closePopup={this.closePopup}
+        statusOk={this.state.popup.statusOk}
+      />}
     </div>);
   }
 }

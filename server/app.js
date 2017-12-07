@@ -4,8 +4,28 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var Strategy = require('passport-twitter').Strategy;
+var session = require('express-session');
+
+passport.use(new Strategy ({
+  consumerKey: 'FFnMP0rI6pscDaXlbwPa4oCLp',
+  consumerSecret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o',
+  callbackURL: 'http://localhost:5000/api/twitter'
+}, (token, tokenSecret, profile, callback) => {
+  return callback(null, profile);
+}));
+
+passport.serializeUser((user, callback) => {
+  callback(null, user);
+});
+
+passport.deserializeUser((obj, callback) => {
+  callback(null, obj);
+});
 
 var index = require('./routes/index');
+var login = require('./routes/auth');
 
 var app = express();
 
@@ -18,6 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/tweet/', index);
+app.use('/api/auth/', login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -36,5 +57,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send('error');
 });
+
+app.use(session({
+  secret: 'thisisasecret',
+  resave: true,
+  saveUninitialized: true
+}));
 
 module.exports = app;
