@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import AppBar from 'material-ui/AppBar';
+
 import Post from './views/Post.js'
 import Login from './views/Login.js'
 
@@ -13,6 +15,7 @@ class App extends Component {
       content: {
         tweet: "",
         media: undefined,
+        tags: "",
       },
       popup: {
         open: false,
@@ -64,26 +67,36 @@ class App extends Component {
     console.log("thanks for posting to twitter");
   }
 
+  login = () => {
+    this.setState({
+      page: ''
+    })
+  }
+
   handleChange = (event) => {
     this.setState({content:{[event.target.name]: event.target.value}})
   }
 
   render() {
+    const stagger = <span style={{
+      color: '#536DFE',
+      fontFamily: 'Courgette',
+      fontSize: '2em',
+      textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000'
+    }}>S<span style={{color: '#1de9b6'}}>tag</span>ger</span>
+
     return (<div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-        <h1 className="App-title">Welcome to React</h1>
-      </header>
-      <p className="App-intro">
-        To get started, edit
-        <code>src/App.js</code>
-        and save to reload.
-      </p>
-      {this.state.page === 'login' ? <Login /> : <Post
+      {this.state.page === "login" ? <h1 className="headerBar">{stagger}</h1> : <AppBar
+        className="headerBar"
+        title={stagger}
+        // iconClassNameRight="muidocs-icon-navigation-expand-more"
+      />}
+      {this.state.page === 'login' ? <Login login={this.login}/> : <Post
         onChange={this.handleChange}
         onClick={this.sendTweet}
         tweet={this.state.content.tweet}
         media={this.state.content.media}
+        tags={this.state.content.tags}
         open={this.state.popup.open}
         closePopup={this.closePopup}
         statusOk={this.state.popup.statusOk}
