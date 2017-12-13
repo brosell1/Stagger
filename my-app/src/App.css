@@ -1,11 +1,11 @@
 .headerBar {
-  background-color:lightgrey;
+  background-color:#eeeeee;
 background-image:
-radial-gradient(circle at 100% 150%, lightgrey 24%, white 25%, white 28%, lightgrey 29%, lightgrey 36%, white 36%, white 40%, transparent 40%, transparent),
-radial-gradient(circle at 0    150%, lightgrey 24%, white 25%, white 28%, lightgrey 29%, lightgrey 36%, white 36%, white 40%, transparent 40%, transparent),
-radial-gradient(circle at 50%  100%, white 10%, lightgrey 11%, lightgrey 23%, white 24%, white 30%, lightgrey 31%, lightgrey 43%, white 44%, white 50%, lightgrey 51%, lightgrey 63%, white 64%, white 71%, transparent 71%, transparent),
-radial-gradient(circle at 100% 50%, white 5%, lightgrey 6%, lightgrey 15%, white 16%, white 20%, lightgrey 21%, lightgrey 30%, white 31%, white 35%, lightgrey 36%, lightgrey 45%, white 46%, white 49%, transparent 50%, transparent),
-radial-gradient(circle at 0    50%, white 5%, lightgrey 6%, lightgrey 15%, white 16%, white 20%, lightgrey 21%, lightgrey 30%, white 31%, white 35%, lightgrey 36%, lightgrey 45%, white 46%, white 49%, transparent 50%, transparent);
+radial-gradient(circle at 100% 150%, #eeeeee 24%, white 25%, white 28%, #eeeeee 29%, #eeeeee 36%, white 36%, white 40%, transparent 40%, transparent),
+radial-gradient(circle at 0    150%, #eeeeee 24%, white 25%, white 28%, #eeeeee 29%, #eeeeee 36%, white 36%, white 40%, transparent 40%, transparent),
+radial-gradient(circle at 50%  100%, white 10%, #eeeeee 11%, #eeeeee 23%, white 24%, white 30%, #eeeeee 31%, #eeeeee 43%, white 44%, white 50%, #eeeeee 51%, #eeeeee 63%, white 64%, white 71%, transparent 71%, transparent),
+radial-gradient(circle at 100% 50%, white 5%, #eeeeee 6%, #eeeeee 15%, white 16%, white 20%, #eeeeee 21%, #eeeeee 30%, white 31%, white 35%, #eeeeee 36%, #eeeeee 45%, white 46%, white 49%, transparent 50%, transparent),
+radial-gradient(circle at 0    50%, white 5%, #eeeeee 6%, #eeeeee 15%, white 16%, white 20%, #eeeeee 21%, #eeeeee 30%, white 31%, white 35%, #eeeeee 36%, #eeeeee 45%, white 46%, white 49%, transparent 50%, transparent);
 background-size:100px 50px;
 }
 
@@ -19,18 +19,56 @@ h1 {
   text-align: center;
   font-size: 5em;
   width: 100vw;
-  margin: 0px;
+  margin-top: 0px;
+  padding-bottom: 10px;
 }
 
 .footer {
   font-family: 'Exo 2', sans-serif;
   color: grey;
   font-size: 1em;
-  margin-top: 38vh;
+  margin-top: 2em;
+}
+
+.flourish {
+  background-color:#eeeeee;
+background-image:
+radial-gradient(circle at 100% 150%, #eeeeee 24%, white 25%, white 28%, #eeeeee 29%, #eeeeee 36%, white 36%, white 40%, transparent 40%, transparent),
+radial-gradient(circle at 0    150%, #eeeeee 24%, white 25%, white 28%, #eeeeee 29%, #eeeeee 36%, white 36%, white 40%, transparent 40%, transparent),
+radial-gradient(circle at 50%  100%, white 10%, #eeeeee 11%, #eeeeee 23%, white 24%, white 30%, #eeeeee 31%, #eeeeee 43%, white 44%, white 50%, #eeeeee 51%, #eeeeee 63%, white 64%, white 71%, transparent 71%, transparent),
+radial-gradient(circle at 100% 50%, white 5%, #eeeeee 6%, #eeeeee 15%, white 16%, white 20%, #eeeeee 21%, #eeeeee 30%, white 31%, white 35%, #eeeeee 36%, #eeeeee 45%, white 46%, white 49%, transparent 50%, transparent),
+radial-gradient(circle at 0    50%, white 5%, #eeeeee 6%, #eeeeee 15%, white 16%, white 20%, #eeeeee 21%, #eeeeee 30%, white 31%, white 35%, #eeeeee 36%, #eeeeee 45%, white 46%, white 49%, transparent 50%, transparent);
+background-size:100px 50px;
+position: fixed;
+bottom: 0;
+height: 150px;
+width: 100%;
+}
+
+.gradient {
+  background: linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,1));
+  position: fixed;
+  bottom: 0;
+  height: 150px;
+  width: 100%;
 }
 
 .button {
   width:40vw;
+}
+
+.profilePicture {
+  width: 46px;
+  height: 46px;
+  margin: 5px;
+  border: 2px solid black;
+  border-radius: 50%;
+  background-color: #eeeeee;
+  font-size: 2eml
+}
+
+.profilePicture:hover {
+  background-color: lightgrey;
 }
 
 @media only screen and (max-width: 768px) {

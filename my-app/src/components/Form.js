@@ -28,15 +28,18 @@ class Form extends Component {
         <div style={{
           display:'flex',
           flexDirection: 'row',
+          justifyContent: 'space-around',
         }}>
-          <Toggle
-            label="Autotag"
-            defaultToggled={true}
-            labelPosition={'right'}
-          />
+          <div>
+            <Toggle
+              label="Autotag"
+              defaultToggled={true}
+              labelPosition={'right'}
+            />
+          </div>
           <RaisedButton
             label="Send Tweet"
-            secondary={true}
+            onClick={this.props.onClick}
           />
         </div>
       </form>

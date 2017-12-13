@@ -17,7 +17,7 @@ ReactDOM.render(
       // accent2Color: '#1de9b6',
       accent3Color: '#00bfa5',
       textColor: '#212121',
-      alternateTextColor: '#FFFFFF',
+      alternateTextColor: '#1de9b6',
       // canvasColor: white,
       borderColor: '#00bfa5',
       // disabledColor: fade('#424242', 0.3),

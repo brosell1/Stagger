@@ -4,19 +4,11 @@ import FlatButton from 'material-ui/FlatButton';
 
 export default class Popup extends Component {
   render() {
-    const actions = [
-      <FlatButton
-        label="Cancel"
+    const actions = <FlatButton
+        label="OK"
         primary={true}
-        onClick={this.closePopup}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.closePopup}
-      />,
-    ];
+        onClick={this.props.closePopup}
+      />
   return <Dialog
       title={this.props.statusOk ? "Thank you for posting!" : "Something went wrong!"}
       actions={actions}
