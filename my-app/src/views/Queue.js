@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
+import QueuedPost from '../components/QueuedPost.js';
+
 class Queue extends Component {
   render() {
     return(<div>
@@ -20,6 +22,12 @@ class Queue extends Component {
           disabled={true}
         />
         <div>
+          <QueuedPost />
+          <QueuedPost />
+          <QueuedPost />
+          <QueuedPost />
+          <QueuedPost />
+          <QueuedPost />
           It's the muthaflippin' queue!!!!
         </div>
       </div>

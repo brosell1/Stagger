@@ -20,16 +20,12 @@ const Post = (props) => {
     <RaisedButton
       label={"Queue"}
       secondary={true}
-      onClick={props.changeView}
+      onClick={props.methods.changeView}
     />
   </div>
-    <Card style={{
-      margin: '2em 2.5%',
-      width: '95%',
-      padding: '2em'
-    }}>
-      <Form onChange={props.onChange} onClick={props.onClick} tweet={props.tweet} media={props.media} tags={props.tags}/>
-      <Popup open={props.open} closePopup={props.closePopup} statusOk={props.statusOk}/>
+    <Card className="card">
+      <Form methods={props.methods} content={props.content}/>
+      <Popup open={props.open} closePopup={props.methods.closePopup} statusOk={props.statusOk}/>
     </Card>
   </div>)
 }

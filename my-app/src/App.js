@@ -1,16 +1,11 @@
 import React, {Component} from 'react';
 import './App.css';
 
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import Paper from 'material-ui/Paper';
-import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
-import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
-
 import Post from './views/Post.js';
 import Login from './views/Login.js';
 import Queue from './views/Queue.js';
-import Sidebar from './components/Sidebar.js'
+import Sidebar from './components/Sidebar.js';
+import Header from './components/Header.js';
 
 class App extends Component {
   constructor(props) {
@@ -28,16 +23,6 @@ class App extends Component {
         statusOk: true,
       },
     };
-  };
-
-  changeDrawer = () => {
-    this.setState({
-      drawer: !this.state.drawer
-    })
-  }
-
-  closePopup = () => {
-    this.setState({popup:{open: false}});
   };
 
   sendTweet = (event) => {
@@ -79,71 +64,60 @@ class App extends Component {
     console.log("thanks for posting to twitter");
   };
 
-  fakeLogin = () => {
-    setTimeout(() => { this.login() }, 400)
-  }
-
-  login = () => {
-    this.setState({
-      page: ''
-    });
-  };
-
-  handleChange = (event) => {
-    this.setState({content:{[event.target.name]: event.target.value}})
-  };
-
-  changeView = () => {
-    let target = this.state.page === "queue" ? "post" : "queue";
-    this.setState({
-      page: target
-    });
+  methods = {
+    changeDrawer: () => {
+      this.setState({
+        drawer: !this.state.drawer
+      })
+    },
+    closePopup: () => {
+      this.setState({popup:{open: false}})
+    },
+    fakeLogin: () => {
+      setTimeout(() => { this.methods.login() }, 400)
+    },
+    login: () => {
+      this.setState({
+        page: ''
+      })
+    },
+    handleChange: (event) => {
+      this.setState({content:{[event.target.name]: event.target.value}})
+    },
+    changeView: () => {
+      let target = this.state.page === "queue" ? "post" : "queue";
+      this.setState({
+        page: target
+      })
+    },
   };
 
   render() {
     const contentStyle = {  transition: 'margin-left 450ms cubic-bezier(0.23, 1, 0.32, 1)' };
-
     if (this.state.drawer) {
       contentStyle.marginLeft = 60;
     }
 
-    const stagger = <span style={{
-      color: '#536DFE',
-      fontFamily: 'Courgette',
-      fontSize: '2em',
-      textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000'
-    }}>S<span style={{color: '#1de9b6'}}>tag</span>ger</span>
+    return (<div style={contentStyle}>
 
-    return (<div style={contentStyle} className="App">
+      <Header
+        drawer={this.state.drawer}
+        page={this.state.page}
+        changeDrawer={this.methods.changeDrawer}
+      />
+      <Sidebar
+        changeDrawer={this.methods.changeDrawer}
+        drawer={this.state.drawer}
+      />
 
-      {this.state.page === "login" ? <Paper zDepth={2} className="headerBar"><h1>{stagger}</h1></Paper> : <div>
-        <Sidebar
-          changeDrawer={this.changeDrawer}
-          drawer={this.state.drawer}
-        />
-        <AppBar
-          iconElementLeft={<IconButton>{this.state.drawer === true ? <ChevronLeft /> : <ChevronRight />}</IconButton>}
-          iconStyleLeft={{
-            color: 'black',
-          }}
-          className="headerBar"
-          title={stagger}
-          onLeftIconButtonClick={this.changeDrawer}
-        />
-      </div>}
       {this.state.page === 'login' ? <Login
-        login={this.fakeLogin}
+        login={this.methods.fakeLogin}
       /> : this.state.page === 'queue' ? <Queue
-        changeView={this.changeView}
+        changeView={this.methods.changeView}
       /> : <Post
-        changeView={this.changeView}
-        onChange={this.handleChange}
-        onClick={this.sendTweet}
-        tweet={this.state.content.tweet}
-        media={this.state.content.media}
-        tags={this.state.content.tags}
+        methods={this.methods}
+        content={this.state.content}
         open={this.state.popup.open}
-        closePopup={this.closePopup}
         statusOk={this.state.popup.statusOk}
       />}
       <div className="flourish" />

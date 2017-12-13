@@ -1,12 +1,13 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var passport = require('passport');
-var Strategy = require('passport-twitter').Strategy;
-var session = require('express-session');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const compression = require('compression');
+const Strategy = require('passport-twitter').Strategy;
+const session = require('express-session');
 
 passport.use(new Strategy ({
   consumerKey: 'FFnMP0rI6pscDaXlbwPa4oCLp',
@@ -57,6 +58,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send('error');
 });
+
+app.use(compression());
 
 app.use(session({
   secret: 'thisisasecret',
