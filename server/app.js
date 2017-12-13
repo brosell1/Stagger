@@ -1,20 +1,29 @@
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const compression = require('compression');
-const Strategy = require('passport-twitter').Strategy;
-const session = require('express-session');
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var Strategy = require('passport-twitter').Strategy;
+var session = require('express-session');
+var compression = require('compression');
+var debug = require('debug');
+var winston = require('winston');
+var mongoose = require('mongoose');
+
+var app = express();
+
+mongoose.connect('mongodb://stagger:Bootcamp1718@ds135946.mlab.com:35946/angry-eyes');
 
 passport.use(new Strategy ({
   consumerKey: 'FFnMP0rI6pscDaXlbwPa4oCLp',
   consumerSecret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o',
-  callbackURL: 'http://localhost:5000/api/twitter'
+  callbackURL: 'http://localhost:5000/api/auth/twitter/callback'
 }, (token, tokenSecret, profile, callback) => {
-  return callback(null, profile);
+  User.findOrCreate({ twitterId: profile.id }, function (err, user) {
+   return callback(err, user);
+ });
 }));
 
 passport.serializeUser((user, callback) => {
@@ -28,7 +37,9 @@ passport.deserializeUser((obj, callback) => {
 var index = require('./routes/index');
 var login = require('./routes/auth');
 
-var app = express();
+var User = require('./models/user');
+
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -36,10 +47,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression())
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/tweet/', index);
 app.use('/api/auth/', login);
+
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -66,5 +80,11 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+winston.log('info', 'Hello distributed log files!');
+winston.info('Hello again distributed logs');
 
 module.exports = app;
