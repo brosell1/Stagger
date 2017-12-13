@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "server": "nodemon ./server/bin/www"
+    "server": "nodemon ./server/bin/www",
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -12,12 +13,18 @@
     "dotenv": "^4.0.0",
     "eslint": "^4.12.1",
     "express": "~4.15.5",
+    "express-session": "^1.15.6",
     "husky": "^0.14.3",
     "jade": "~1.11.0",
     "mongoose": "^4.13.6",
     "morgan": "~1.9.0",
+    "passport": "^0.4.0",
+    "passport-twitter": "^1.0.4",
     "prettier": "^1.8.2",
     "serve-favicon": "~2.4.5",
     "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
   }
 }
