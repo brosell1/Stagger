@@ -43,6 +43,7 @@ position: fixed;
 bottom: 0;
 height: 150px;
 width: 100%;
+z-index: -2;
 }
 
 .gradient {
@@ -51,6 +52,7 @@ width: 100%;
   bottom: 0;
   height: 150px;
   width: 100%;
+  z-index: -1;
 }
 
 .button {
@@ -71,7 +73,13 @@ width: 100%;
   background-color: lightgrey;
 }
 
-@media only screen and (max-width: 768px) {
+.card {
+  margin: 2em 2.5%;
+  width: 95%;
+  padding: 2em;
+}
+
+@media only screen and (max-width: 850px) {
   [class="footer"] {
     visibility: hidden;
     margin: 0px;
@@ -82,3 +90,5 @@ width: 100%;
     font-size: 3em;
   }
 }
+
+@media only screen and (max-width: 500px) { h1 { font-size: 2em } };
