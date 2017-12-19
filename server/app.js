@@ -37,7 +37,7 @@ passport.deserializeUser((obj, callback) => {
 var index = require('./routes/index');
 var login = require('./routes/auth');
 
-var User = require('./models/user');
+var user = require('./models/user');
 
 
 
