@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 
 const stagger = <span style={{
   color: '#536DFE',
-  fontFamily: 'Source Sans Pro, sans-serif',
+  fontFamily: 'Quattrocento, sans-serif',
   fontSize: '2em',
   textShadow: '1px 1px 0 #3F51B5, -1px -1px 0 #3F51B5, 1px -1px 0 #3F51B5, -1px 1px 0 #3F51B5, 1px 1px 0 #3F51B5'
 }}>s<span style={{color: '#1de9b6'}}>tag</span>ger<span style={{color: '#1de9b6'}}>.</span>tech</span>

@@ -4,10 +4,10 @@ var Twitter = require('twitter');
 
 var n = 1;
 
-mongoose.connect('mongodb://localhost/cronTest', { useMongoClient: true });
+mongoose.connect('mongodb://BenFruit:Bootcamp@ds135946.mlab.com:35946/angry-eyes', { useMongoClient: true });
 
 var schema = new mongoose.Schema({ body: 'string' });
-var Post = mongoose.model('posts_copy', schema);
+var Post = mongoose.model('cronTest', schema);
 
 const client = new Twitter({
   consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp',
@@ -19,7 +19,7 @@ const client = new Twitter({
 new CronJob('*/10 * * * * *', function() {
   console.log('You will see this message every minute');
   /* vvv NOT WORKING vvv maybe try a different query to see if it's even looking at the database */
-  Post.findOneAndRemove(undefined, (err, post) => {
+  Post.findOneAndRemove({body: ""}, (err, post) => {
     console.log(post);
     if(err) throw err;
     client.post('statuses/update', {status: post}, (error, data, response) => {
