@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@storybook/addon-actions": "^3.2.17",
+    "@storybook/addon-links": "^3.2.17",
     "@storybook/cli": "^3.2.17",
+    "@storybook/react": "^3.2.17",
     "material-ui": "^0.20.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "storybook-addon-material-ui": "^0.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,10 +22,5 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
-  "proxy": "http://localhost:5000/",
-  "devDependencies": {
-    "@storybook/react": "^3.2.17",
-    "@storybook/addon-actions": "^3.2.17",
-    "@storybook/addon-links": "^3.2.17"
-  }
+  "proxy": "http://localhost:5000/"
 }

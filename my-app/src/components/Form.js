@@ -10,14 +10,14 @@ const Form = (props) => {
       <TextField
         hintText="Type your post here!"
         multiLine={true}
-        onChange={props.methods.onChange}
+        onChange={props.methods.handleChange}
         value={props.content.tweet}
         name="tweet"
         fullWidth={true}
       />
       <TextField
         hintText="Enter your tags!"
-        onChange={props.methods.onChange}
+        onChange={props.methods.handleChange}
         value={props.content.tags}
         name="tags"
         fullWidth={true}
@@ -38,7 +38,7 @@ const Form = (props) => {
         </div>
         <RaisedButton
           label="Send Tweet"
-          onClick={props.methods.onClick}
+          onClick={props.sendTweet}
         />
       </div>
     </form>

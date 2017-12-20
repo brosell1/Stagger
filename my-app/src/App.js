@@ -6,6 +6,7 @@ import Login from './views/Login.js';
 import Queue from './views/Queue.js';
 import Sidebar from './components/Sidebar.js';
 import Header from './components/Header.js';
+import AccountPopup from './components/AccountPopup.js'
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class App extends Component {
         open: false,
         statusOk: true,
       },
+      accountPopup: false,
     };
   };
 
@@ -73,6 +75,9 @@ class App extends Component {
     closePopup: () => {
       this.setState({popup:{open: false}})
     },
+    changeAccountPopup: () => {
+      this.setState({accountPopup: !this.state.accountPopup})
+    },
     fakeLogin: () => {
       setTimeout(() => { this.methods.login() }, 400)
     },
@@ -100,6 +105,8 @@ class App extends Component {
 
     return (<div style={contentStyle}>
 
+      <AccountPopup open={this.state.accountPopup} closeAccountPopup={this.methods.changeAccountPopup}/>
+
       <Header
         drawer={this.state.drawer}
         page={this.state.page}
@@ -108,6 +115,7 @@ class App extends Component {
       <Sidebar
         changeDrawer={this.methods.changeDrawer}
         drawer={this.state.drawer}
+        openAccountPopup={this.methods.changeAccountPopup}
       />
 
       {this.state.page === 'login' ? <Login
@@ -115,6 +123,7 @@ class App extends Component {
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
       /> : <Post
+        sendTweet={this.sendTweet}
         methods={this.methods}
         content={this.state.content}
         open={this.state.popup.open}
