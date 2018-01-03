@@ -14,7 +14,8 @@ var mongoose = require('mongoose');
 
 var app = express();
 
-mongoose.connect('mongodb://stagger:Bootcamp1718@ds135946.mlab.com:35946/angry-eyes');
+// mongoose.connect('mongodb://stagger:Bootcamp1718@ds135946.mlab.com:35946/angry-eyes');
+mongoose.connect('mongodb://localhost/cronTest', {useMongoClient: true});
 
 passport.use(new Strategy ({
   consumerKey: 'FFnMP0rI6pscDaXlbwPa4oCLp',

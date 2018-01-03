@@ -21,7 +21,7 @@ var Posts = mongoose.model('posts_copy', schema, 'posts_copy');
 const client = new Twitter({consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp', consumer_secret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o', access_token_key: '937705103959740416-rFYq9iQliFIKk8VofgIThEjPcoYEL8D', access_token_secret: 'PAp1jV228XEYZV5WrIhQZEzRgUjpsZSNxnSN6GiRmTTsT'});
 
 var job = new CronJob('0 * * * * *', () => {
-  console.log('You will see this message every minute');
+  console.log('Checking the database every minute');
   Posts.find({
     posted: false,
     date: {$lte: Date.now()}
@@ -49,19 +49,5 @@ var job = new CronJob('0 * * * * *', () => {
     });
   });
 }, null, false, 'Europe/Dublin');
-
-// var job = new CronJob('*/10 * * * * *', () => {
-//   console.log('You will see this message every ten seconds');
-//   Posts.findOneAndUpdate({posted: false}, {$set:{posted: true}}, (err, post) => {
-//     console.log(post);
-//     if(err) throw err;
-//     if(!post) return;
-//     client.post('statuses/update', {status: `${post.body}`}, (error, data, response) => {
-//       if(error) throw error;
-//       console.log(data);   Tweet body.
-//        res.json({payload: data});
-//     });
-//   });
-// }, null, false, 'Europe/Dublin');
 
 job.start();
