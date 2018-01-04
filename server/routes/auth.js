@@ -3,7 +3,8 @@ var router = express.Router();
 var path = require('path');
 var passport = require('passport');
 var Strategy = require('passport-twitter').Strategy;
-var user = {};
+
+var User = require('../models/users');
 
 passport.use(new Strategy ({
   consumerKey: 'FFnMP0rI6pscDaXlbwPa4oCLp',
@@ -18,13 +19,14 @@ passport.use(new Strategy ({
 
 router.get('/', function(req, res) {
   res.send('Login via Twitter!');
-})
+});
 
-router.get('auth/twitter',
-  passport.authenticate('twitter'));
+router.get('/twitter',
+  passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' })
+);
 
 
-router.get('auth/twitter/callback',
+router.get('/twitter/callback',
   passport.authenticate('twitter', {
     failureRedirect: '/login'
 }),

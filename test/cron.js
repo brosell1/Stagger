@@ -4,7 +4,7 @@ var Twitter = require('twitter');
 
 var n = 7;
 
-mongoose.connect('mongodb://localhost/cronTest', {useMongoClient: true});
+mongoose.connect('mongodb://StaggerUser:password@ds135946.mlab.com:35946/angry-eyes', {useMongoClient: true});
 
 mongoose.connection.once('open', function() {
   console.log('Connected to database!');
@@ -20,7 +20,7 @@ var Posts = mongoose.model('posts', schema, 'posts');
 
 const client = new Twitter({consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp', consumer_secret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o', access_token_key: '937705103959740416-rFYq9iQliFIKk8VofgIThEjPcoYEL8D', access_token_secret: 'PAp1jV228XEYZV5WrIhQZEzRgUjpsZSNxnSN6GiRmTTsT'});
 
-var job = new CronJob('1 * * * * *', () => {
+var job = new CronJob('1,31 * * * * *', () => {
   console.log('Checking the database every thirty seconds');
   Posts.find({
     posted: false,
