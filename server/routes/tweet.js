@@ -1,8 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var Twitter = require('twitter');
-var fs = require('fs');
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const Twitter = require('twitter');
+const fs = require('fs');
+const mongoose = require('mongoose');
+
+const Post = require('../models/posts');
 
 const client = new Twitter({
   consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp',
@@ -24,11 +27,18 @@ router.post('/text', (req, res) => {
   });
 });
 
-// router.post('/media', function(req, res) {
-//     T.postMediaChunked({ file_path: req.body.media }, function (err, data, response) {
-//       console.log(data)
-//       res.json({payload: data})
-//     })
-// });
+router.post('/schedule', (req, res) => {
+  console.log(req.body);
+  const { tweet, timeStamp } = req.body;
+  const params = {
+    postContent: tweet,
+    scheduledTime: timeStamp
+  }
+  var post = new Post(params);
+  post.save(() => {
+    console.log('SAVED')
+    res.json({message: 'ok'})
+  })
+})
 
 module.exports = router;

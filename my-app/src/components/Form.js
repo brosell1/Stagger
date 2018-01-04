@@ -18,7 +18,7 @@ const Form = (props) => {
         fullWidth={true}
       />
       <TextField
-        hintText="Enter your tags!"
+        hintText="Enter your tags, separated by a space!"
         onChange={props.methods.handleTagsChange}
         value={props.content.tags}
         name="tags"

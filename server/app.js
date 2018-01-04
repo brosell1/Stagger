@@ -35,10 +35,10 @@ passport.deserializeUser((obj, callback) => {
   callback(null, obj);
 });
 
-var index = require('./routes/index');
+var tweet = require('./routes/tweet');
 var login = require('./routes/auth');
 
-var user = require('./models/user');
+var user = require('./models/users');
 
 
 
@@ -51,7 +51,7 @@ app.use(cookieParser());
 app.use(compression())
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/tweet/', index);
+app.use('/api/tweet/', tweet);
 app.use('/api/auth/', login);
 
 app.use('/user', user);

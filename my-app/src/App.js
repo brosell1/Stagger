@@ -31,6 +31,19 @@ class App extends Component {
   };
 
 
+  resetTextField = () => {
+    let prevState = this.state.content;
+    prevState.tweet = "";
+    this.setState({
+      content: prevState,
+      popup:{
+        open: true,
+        statusOk: true,
+      },
+    });
+    console.log("thanks for posting to twitter");
+  }
+
   postMethods = {
     sendTweet: (event) => {
       event.preventDefault();
@@ -59,22 +72,21 @@ class App extends Component {
         body: JSON.stringify(this.state.content)
       })
       .then(res => res.json()).then(res => console.log(res))
-      this.setState({
-        content:{
-          tweet: "",
-        },
-        popup:{
-          open: true,
-          statusOk: true,
-        },
-      });
-      console.log("thanks for posting to twitter");
+      this.resetTextField();
     },
     queueTweet: () => {/* do something */},
     scheduleTweet: (event) => {
       event.preventDefault();
       if(this.state.content.tweet.trim()) {
-        /* do something */
+        fetch('/api/tweet/schedule', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.state.content)
+        })
+        .then(res => res.json()).then(res => console.log(res))
+        this.resetTextField();
       } else {
         this.setState({
           popup:{
@@ -82,8 +94,7 @@ class App extends Component {
             statusOk: false,
           },
         });
-        return;
-      }
+      };
     },
   }
 
@@ -178,7 +189,7 @@ class App extends Component {
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
       /> : <Post
-        sendTweet={this.postMethods.sendTweet}
+        sendTweet={this.postMethods.scheduleTweet}
         methods={this.methods}
         content={this.state.content}
         open={this.state.popup.open}
