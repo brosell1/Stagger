@@ -20,11 +20,11 @@ var Posts = mongoose.model('posts', schema, 'posts');
 
 const client = new Twitter({consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp', consumer_secret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o', access_token_key: '937705103959740416-rFYq9iQliFIKk8VofgIThEjPcoYEL8D', access_token_secret: 'PAp1jV228XEYZV5WrIhQZEzRgUjpsZSNxnSN6GiRmTTsT'});
 
-var job = new CronJob('1,31 * * * * *', () => {
-  console.log('Checking the database every thirty seconds');
+var job = new CronJob('0 * * * * *', () => {
+  console.log('Checking the database every minute');
   Posts.find({
     posted: false,
-    scheduledTime: {$lte: Date.now()}
+    scheduledTime: {$lte: Date.now() - 59000}
   }, (err, posts) => {
     console.log(posts);
     if (err)
