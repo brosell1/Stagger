@@ -14,7 +14,8 @@ var mongoose = require('mongoose');
 
 var app = express();
 
-mongoose.connect('mongodb://stagger:Bootcamp1718@ds135946.mlab.com:35946/angry-eyes');
+// mongoose.connect('mongodb://stagger:Bootcamp1718@ds135946.mlab.com:35946/angry-eyes');
+mongoose.connect('mongodb://localhost/cronTest', {useMongoClient: true});
 
 passport.use(new Strategy ({
   consumerKey: 'FFnMP0rI6pscDaXlbwPa4oCLp',
@@ -34,10 +35,10 @@ passport.deserializeUser((obj, callback) => {
   callback(null, obj);
 });
 
-var index = require('./routes/index');
+var tweet = require('./routes/tweet');
 var login = require('./routes/auth');
 
-var User = require('./models/user');
+var user = require('./models/users');
 
 
 
@@ -50,7 +51,7 @@ app.use(cookieParser());
 app.use(compression())
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/tweet/', index);
+app.use('/api/tweet/', tweet);
 app.use('/api/auth/', login);
 
 app.use('/user', user);
