@@ -1,10 +1,12 @@
 import React from 'react';
 
-import RaisedButton from 'material-ui/RaisedButton'
+import ChipInput from 'material-ui-chip-input';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 
 import DateTime from '../components/DateTime';
+
 
 const Form = (props) => {
   return(
@@ -17,10 +19,12 @@ const Form = (props) => {
         name="tweet"
         fullWidth={true}
       />
-      <TextField
+      <ChipInput
         hintText="Enter your tags, separated by a space!"
-        onChange={props.methods.handleTagsChange}
+        // onChange={props.methods.handleTagsChange}
         value={props.content.tags}
+        onRequestAdd={(chip) => props.methods.handleAddChip(chip)}
+        onRequestDelete={(chip, index) => props.methods.handleDeleteChip(chip, index)}
         name="tags"
         fullWidth={true}
       />

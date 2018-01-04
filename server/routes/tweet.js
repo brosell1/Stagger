@@ -31,7 +31,7 @@ router.post('/schedule', (req, res) => {
   console.log(req.body);
   const { tweet, timeStamp, tags } = req.body;
   const params = {
-    postContent: `${tweet} ${tags.split(" ").map(item => item = "#" + item).join(" ")}`,
+    postContent: `${tweet} ${tags.map(item => item = "#" + item).join(" ")}`,
     scheduledTime: timeStamp
   }
   var post = new Post(params);
