@@ -19,8 +19,12 @@ router.get('/', function(req, res, next) {
   res.send("You've gone to the wrong place.");
 });
 
+router.get('/getQueue', (req, res, next) => {
+  Post.find({ posted: false }, (err, posts) => res.json(posts));
+})
+
 router.post('/text', (req, res) => {
-  client.post('statuses/update', {status: req.body.tweet}, (error, data, response) => {
+  client.post('statuses/update', {status: `${req.body.tweet} ${req.body.tags.map(item => item = "#" + item).join(" ")}`}, (error, data, response) => {
       if(error) throw error;
       console.log(data);  // Tweet body.
       res.json({payload: data});
@@ -31,7 +35,7 @@ router.post('/schedule', (req, res) => {
   console.log(req.body);
   const { tweet, timeStamp, tags } = req.body;
   const params = {
-    postContent: `${tweet} ${tags.split(" ").map(item => item = "#" + item).join(" ")}`,
+    postContent: `${tweet} ${tags.map(item => item = "#" + item).join(" ")}`,
     scheduledTime: timeStamp
   }
   var post = new Post(params);

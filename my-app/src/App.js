@@ -17,7 +17,7 @@ class App extends Component {
       content: {
         tweet: "",
         media: undefined,
-        tags: "",
+        tags: [],
         date: null,
         time: null,
         timeStamp: Date.now(),
@@ -31,9 +31,10 @@ class App extends Component {
   };
 
 
-  resetTextField = () => {
+  resetFields = () => {
     let prevState = this.state.content;
     prevState.tweet = "";
+    prevState.tags = [];
     this.setState({
       content: prevState,
       popup:{
@@ -72,7 +73,7 @@ class App extends Component {
         body: JSON.stringify(this.state.content)
       })
       .then(res => res.json()).then(res => console.log(res))
-      this.resetTextField();
+      this.resetFields();
     },
     queueTweet: () => {/* do something */},
     scheduleTweet: (event) => {
@@ -86,7 +87,7 @@ class App extends Component {
           body: JSON.stringify(this.state.content)
         })
         .then(res => res.json()).then(res => console.log(res))
-        this.resetTextField();
+        this.resetFields();
       } else {
         this.setState({
           popup:{
@@ -140,6 +141,16 @@ class App extends Component {
       prevState.time = time;
       this.setState({content: prevState})
     },
+    handleAddChip: (chip) => {
+      let prevState = {...this.state.content};
+      prevState.tags.push(chip);
+      this.setState({content: prevState})
+    },
+    handleDeleteChip: (deletedChip) => {
+      let prevState = {...this.state.content};
+      prevState.tags = prevState.tags.filter((c) => c !== deletedChip)
+      this.setState({content: prevState})
+    },
 
     handleTimeChangeExt: (event, time) => {
       let prevState = {...this.state.content};
@@ -189,7 +200,7 @@ class App extends Component {
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
       /> : <Post
-        sendTweet={this.postMethods.scheduleTweet}
+        postMethods={this.postMethods}
         methods={this.methods}
         content={this.state.content}
         open={this.state.popup.open}

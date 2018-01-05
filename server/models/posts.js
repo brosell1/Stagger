@@ -9,6 +9,6 @@ const postSchema = {
       posted: {type: Boolean, default: false}
 }
 
-var Post = mongoose.model('Post', mongoose.Schema(postSchema));
+var Post = mongoose.model('posts', mongoose.Schema(postSchema));
 
 module.exports = Post;
