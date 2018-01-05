@@ -2,8 +2,12 @@ import React from 'react';
 
 import ChipInput from 'material-ui-chip-input';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 import DateTime from '../components/DateTime';
 
@@ -49,10 +53,14 @@ const Form = (props) => {
           handleDateChange={props.methods.handleDateChangeExt}
           handleTimeChange={props.methods.handleTimeChangeExt}
         />
-        <RaisedButton
-          label="Send Tweet"
-          onClick={props.sendTweet}
-        />
+        <IconMenu
+          iconButtonElement={<IconButton><MoreVert /></IconButton>}
+          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+        >
+          <MenuItem primaryText="Post Now" onClick={props.postMethods.sendTweet}/>
+          <MenuItem primaryText="Schedule" onClick={props.postMethods.scheduleTweet}/>
+        </IconMenu>
       </div>
     </form>
   );

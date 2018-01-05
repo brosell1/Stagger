@@ -5,6 +5,16 @@ import RaisedButton from 'material-ui/RaisedButton';
 import QueuedPost from '../components/QueuedPost.js';
 
 class Queue extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      queue: []
+    }
+  }
+  componentWillMount() {
+    fetch('/api/tweet/getQueue').then(res => res.json()).then(res => this.setState({queue: [...res]}));
+  }
+
   render() {
     return(<div>
       <div style={{
@@ -22,13 +32,7 @@ class Queue extends Component {
           disabled={true}
         />
         <div>
-          <QueuedPost />
-          <QueuedPost />
-          <QueuedPost />
-          <QueuedPost />
-          <QueuedPost />
-          <QueuedPost />
-          It's the muthaflippin' queue!!!!
+          {this.state.queue.map(item => <QueuedPost body={item.postContent} time={`${new Date(item.scheduledTime)}`}/>)}
         </div>
       </div>
     </div>

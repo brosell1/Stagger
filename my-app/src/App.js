@@ -200,7 +200,7 @@ class App extends Component {
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
       /> : <Post
-        sendTweet={this.postMethods.scheduleTweet}
+        postMethods={this.postMethods}
         methods={this.methods}
         content={this.state.content}
         open={this.state.popup.open}

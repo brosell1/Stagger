@@ -13,7 +13,7 @@ passport.use(new Strategy({
 }, (token, tokenSecret, profile, done) => {
   console.log(profile);
   User.findOne({
-    'twitter.id': profile.id
+    'twitterUsername': profile.username
   }, function(err, user) {
     if (err) {
       return done(err);

@@ -24,7 +24,7 @@ const Post = (props) => {
     />
   </div>
     <Card className="card">
-      <Form methods={props.methods} content={props.content} sendTweet={props.sendTweet}/>
+      <Form methods={props.methods} content={props.content} postMethods={props.postMethods}/>
       <Popup open={props.open} closePopup={props.methods.closePopup} statusOk={props.statusOk}/>
     </Card>
   </div>)
