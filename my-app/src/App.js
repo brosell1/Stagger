@@ -17,7 +17,10 @@ class App extends Component {
       content: {
         tweet: "",
         media: undefined,
-        tags: "",
+        tags: [],
+        date: null,
+        time: null,
+        timeStamp: Date.now(),
       },
       popup: {
         open: false,
@@ -27,44 +30,74 @@ class App extends Component {
     };
   };
 
-  sendTweet = (event) => {
-    event.preventDefault();
-    var route;
-    if(this.state.content.tweet !== '') {
-      route = 'text';
-    } else {
-      console.log('No tweet detected - please add something to either field');
-      this.setState({
-        popup:{
-          open: true,
-          statusOk: false,
-        },
-      });
-      return;
-    };
-    if(this.state.content.media) {
-      route = 'media';
-    };
-    console.log(route);
-    fetch('/api/tweet/' + route, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state.content)
-    })
-    .then(res => res.json()).then(res => console.log(res))
+
+  resetFields = () => {
+    let prevState = this.state.content;
+    prevState.tweet = "";
+    prevState.tags = [];
     this.setState({
-      content:{
-        tweet: "",
-      },
+      content: prevState,
       popup:{
         open: true,
         statusOk: true,
       },
     });
     console.log("thanks for posting to twitter");
-  };
+  }
+
+  postMethods = {
+    sendTweet: (event) => {
+      event.preventDefault();
+      var route;
+      if(this.state.content.tweet !== '') {
+        route = 'text';
+      } else {
+        console.log('No tweet detected - please add something to either field');
+        this.setState({
+          popup:{
+            open: true,
+            statusOk: false,
+          },
+        });
+        return;
+      };
+      if(this.state.content.media) {
+        route = 'media';
+      };
+      console.log(route);
+      fetch('/api/tweet/' + route, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.content)
+      })
+      .then(res => res.json()).then(res => console.log(res))
+      this.resetFields();
+    },
+    queueTweet: () => {/* do something */},
+    scheduleTweet: (event) => {
+      event.preventDefault();
+      if(this.state.content.tweet.trim()) {
+        fetch('/api/tweet/schedule', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.state.content)
+        })
+        .then(res => res.json()).then(res => console.log(res))
+        this.resetFields();
+      } else {
+        this.setState({
+          popup:{
+            open: true,
+            statusOk: false,
+          },
+        });
+      };
+    },
+  }
 
   methods = {
     changeDrawer: () => {
@@ -86,9 +119,53 @@ class App extends Component {
         page: ''
       })
     },
-    handleChange: (event) => {
-      this.setState({content:{[event.target.name]: event.target.value}})
+    handleTweetChange: (event) => {
+      let prevState = {...this.state.content};
+      let val = event.target.value;
+      prevState.tweet = val;
+      this.setState({content: prevState})
     },
+    handleTagsChange: (event) => {
+      let prevState = {...this.state.content};
+      let val = event.target.value;
+      prevState.tags = val;
+      this.setState({content: prevState})
+    },
+    handleDateChange: (event, date) => {
+      let prevState = {...this.state.content};
+      prevState.date = date;
+      this.setState({content: prevState})
+    },
+    handleTimeChange: (event, time) => {
+      let prevState = {...this.state.content};
+      prevState.time = time;
+      this.setState({content: prevState})
+    },
+    handleAddChip: (chip) => {
+      let prevState = {...this.state.content};
+      prevState.tags.push(chip);
+      this.setState({content: prevState})
+    },
+    handleDeleteChip: (deletedChip) => {
+      let prevState = {...this.state.content};
+      prevState.tags = prevState.tags.filter((c) => c !== deletedChip)
+      this.setState({content: prevState})
+    },
+
+    handleTimeChangeExt: (event, time) => {
+      let prevState = {...this.state.content};
+      prevState.timeStamp = Date.parse(new Date(this.state.content.timeStamp).toISOString().slice(0, 10) + (new Date(time).toISOString().slice(10, 19)));
+      prevState.time = new Date(time);
+      this.setState({content: prevState});
+    },
+
+    handleDateChangeExt: (event, date) => {
+      let prevState = {...this.state.content};
+      prevState.timeStamp = Date.parse((new Date(date).toISOString().slice(0, 10)) + (new Date(this.state.content.timeStamp).toISOString().slice(10, 19)));
+      prevState.date = new Date(date);
+      this.setState({content: prevState});
+    },
+
     changeView: () => {
       let target = this.state.page === "queue" ? "post" : "queue";
       this.setState({
@@ -123,7 +200,7 @@ class App extends Component {
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
       /> : <Post
-        sendTweet={this.sendTweet}
+        postMethods={this.postMethods}
         methods={this.methods}
         content={this.state.content}
         open={this.state.popup.open}

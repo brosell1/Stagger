@@ -6,16 +6,16 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 
-const QueuedPost = () => {
+const QueuedPost = (props) => {
   return(
     <Card className="card" style={{textAlign: 'left', zIndex: 10}}>
-      <h4>This is an example of a queued post.</h4>
+      <h4>{props.body}</h4>
       <div style={{
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}>
-        <p>Scheduled for:</p>
+        <p>Scheduled for: {props.time}</p>
         <IconMenu
              iconButtonElement={<IconButton><MoreVert /></IconButton>}
              anchorOrigin={{horizontal: 'left', vertical: 'top'}}
