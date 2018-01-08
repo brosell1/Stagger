@@ -119,13 +119,9 @@ class App extends Component {
         page: ''
       })
     },
-    handleTweetChange: (event) => {
-      const val = event.target.value;
-      this.setState((prevState) => ({content: {
-        ...prevState.content,
-        tweet: val
-      }}))
-      fetch(`/api/nlp?text='${val}'`)
+    autoTag: () => {
+      let tags = this.state.content.tags.slice();
+      fetch(`/api/nlp?text='${this.state.content.tweet}'`)
       .then(response => {
         if(!response.ok){
           throw Error('error from server')
@@ -138,11 +134,20 @@ class App extends Component {
         }
         return data;
       })
-      .then(data => this.setState((prevState) => ({content: {
-        ...prevState.content,
-        tags: data.payload.keywords
-      }})))
+      .then(data => {
+        this.setState((prevState) => ({content: {
+          ...prevState.content,
+          tags: [...tags, ...data.payload.keywords.map(item => item.text.split(" ").join(""))]
+        }}))
+      })
       .catch(err => console.error(err));
+    },
+    handleTweetChange: (event) => {
+      const val = event.target.value;
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        tweet: val
+      }}))
     },
     handleTagsChange: (event) => {
       const val = event.target.value;
@@ -164,18 +169,19 @@ class App extends Component {
       }}));
     },
     handleAddChip: (chip) => {
+      let tags = this.state.content.tags.slice();
       this.setState((prevState) => ({content: {
         ...prevState.content,
-        tags: prevState.tags.push(chip)
+        tags: [...tags, chip]
       }}))
     },
     handleDeleteChip: (deletedChip) => {
+      let tags = this.state.content.tags.slice();
       this.setState((prevState) => ({content: {
         ...prevState.content,
-        tags: prevState.tags.filter((item) => item !== deletedChip)
+        tags: [...tags.filter((item) => item !== deletedChip)]
       }}))
     },
-
     handleTimeChangeExt: (event, time) => {
       this.setState((prevState) => ({content: {
         ...prevState.content,
@@ -183,7 +189,6 @@ class App extends Component {
         timeStamp: Date.parse(new Date(this.state.content.timeStamp).toISOString().slice(0, 10) + (new Date(time).toISOString().slice(10, 19)))
       }}))
     },
-
     handleDateChangeExt: (event, date) => {
       this.setState((prevState) => ({content: {
         ...prevState.content,
@@ -191,7 +196,6 @@ class App extends Component {
         timeStamp: Date.parse((new Date(date).toISOString().slice(0, 10)) + (new Date(this.state.content.timeStamp).toISOString().slice(10, 19)))
       }}))
     },
-
     changeView: () => {
       let target = this.state.page === "queue" ? "post" : "queue";
       this.setState({

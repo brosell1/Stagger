@@ -24,7 +24,7 @@ var job = new CronJob('0 * * * * *', () => {
   console.log('Checking the database every minute');
   Posts.find({
     posted: false,
-    scheduledTime: {$lte: Date.now() - 59000}
+    scheduledTime: {$lte: Date.now() + 59000}
   }, (err, posts) => {
     console.log(posts);
     if (err)

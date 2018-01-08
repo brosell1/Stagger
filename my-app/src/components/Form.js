@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
+// import Toggle from 'material-ui/Toggle';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 
@@ -26,9 +26,9 @@ const Form = (props) => {
       <ChipInput
         hintText="Enter your tags, separated by a space!"
         // onChange={props.methods.handleTagsChange}
-        value={props.content.tags.map(t => t.text)}
+        value={props.content.tags}
         onRequestAdd={(chip) => props.methods.handleAddChip(chip)}
-        onRequestDelete={(chip, index) => props.methods.handleDeleteChip(chip, index)}
+        onRequestDelete={chip => props.methods.handleDeleteChip(chip)}
         name="tags"
         fullWidth={true}
       />
@@ -40,10 +40,9 @@ const Form = (props) => {
         justifyContent: 'space-between',
       }}>
         <div>
-          <Toggle
+          <RaisedButton
             label="Autotag"
-            defaultToggled={true}
-            labelPosition={'right'}
+            onClick={props.methods.autoTag}
           />
         </div>
         <DateTime
