@@ -26,7 +26,7 @@ const Form = (props) => {
       <ChipInput
         hintText="Enter your tags, separated by a space!"
         // onChange={props.methods.handleTagsChange}
-        value={props.content.tags}
+        value={props.content.tags.map(t => t.text)}
         onRequestAdd={(chip) => props.methods.handleAddChip(chip)}
         onRequestDelete={(chip, index) => props.methods.handleDeleteChip(chip, index)}
         name="tags"
