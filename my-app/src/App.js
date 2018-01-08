@@ -120,50 +120,76 @@ class App extends Component {
       })
     },
     handleTweetChange: (event) => {
-      let prevState = {...this.state.content};
-      let val = event.target.value;
-      prevState.tweet = val;
-      this.setState({content: prevState})
+      const val = event.target.value;
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        tweet: val
+      }}))
+      fetch(`/api/nlp?text='${val}'`)
+      .then(response => {
+        if(!response.ok){
+          throw Error('error from server')
+        }
+        return response.json()
+      })
+      .then(data => {
+        if(data.error) {
+          throw Error('response error')
+        }
+        return data;
+      })
+      .then(data => this.setState((prevState) => ({content: {
+        ...prevState.content,
+        tags: data.payload.keywords
+      }})))
+      .catch(err => console.error(err));
     },
     handleTagsChange: (event) => {
-      let prevState = {...this.state.content};
-      let val = event.target.value;
-      prevState.tags = val;
-      this.setState({content: prevState})
+      const val = event.target.value;
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        tags: val
+      }}));
     },
     handleDateChange: (event, date) => {
-      let prevState = {...this.state.content};
-      prevState.date = date;
-      this.setState({content: prevState})
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        date: date
+      }}));
     },
     handleTimeChange: (event, time) => {
-      let prevState = {...this.state.content};
-      prevState.time = time;
-      this.setState({content: prevState})
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        time: time
+      }}));
     },
     handleAddChip: (chip) => {
-      let prevState = {...this.state.content};
-      prevState.tags.push(chip);
-      this.setState({content: prevState})
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        tags: prevState.tags.push(chip)
+      }}))
     },
     handleDeleteChip: (deletedChip) => {
-      let prevState = {...this.state.content};
-      prevState.tags = prevState.tags.filter((c) => c !== deletedChip)
-      this.setState({content: prevState})
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        tags: prevState.tags.filter((item) => item !== deletedChip)
+      }}))
     },
 
     handleTimeChangeExt: (event, time) => {
-      let prevState = {...this.state.content};
-      prevState.timeStamp = Date.parse(new Date(this.state.content.timeStamp).toISOString().slice(0, 10) + (new Date(time).toISOString().slice(10, 19)));
-      prevState.time = new Date(time);
-      this.setState({content: prevState});
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        time: new Date(time),
+        timeStamp: Date.parse(new Date(this.state.content.timeStamp).toISOString().slice(0, 10) + (new Date(time).toISOString().slice(10, 19)))
+      }}))
     },
 
     handleDateChangeExt: (event, date) => {
-      let prevState = {...this.state.content};
-      prevState.timeStamp = Date.parse((new Date(date).toISOString().slice(0, 10)) + (new Date(this.state.content.timeStamp).toISOString().slice(10, 19)));
-      prevState.date = new Date(date);
-      this.setState({content: prevState});
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        date: new Date(date),
+        timeStamp: Date.parse((new Date(date).toISOString().slice(0, 10)) + (new Date(this.state.content.timeStamp).toISOString().slice(10, 19)))
+      }}))
     },
 
     changeView: () => {
