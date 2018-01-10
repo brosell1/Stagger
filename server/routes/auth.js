@@ -47,7 +47,6 @@ passport.deserializeUser((obj, callback) => {
 });
 
 router.get('/', function(req, res) {
-  console.log(req.session);
   res.send('Login via Twitter!');
 });
 

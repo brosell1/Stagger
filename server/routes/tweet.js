@@ -20,7 +20,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getQueue', (req, res, next) => {
-  console.log(req.session);
   Post.find({ posted: false }, (err, posts) => res.json(posts));
 })
 
