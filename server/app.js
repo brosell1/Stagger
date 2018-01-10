@@ -18,14 +18,14 @@ var app = express();
 mongoose.connect('mongodb://StaggerUser:password@ds135946.mlab.com:35946/angry-eyes', {useMongoClient: true});
 
 var tweet = require('./routes/tweet');
-var login = require('./routes/auth');
+var auth = require('./routes/auth');
 var nlp = require('./routes/nlp');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(session({
-  secret: 'thisisasecret',
+  secret: 'angryeyes',
   resave: true,
   saveUninitialized: true
 }));
@@ -37,7 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/tweet/', tweet);
-app.use('/api/auth/', login);
+app.use('/api/auth/', auth);
 app.use('/api/nlp/', nlp);
 
 // // catch 404 and forward to error handler

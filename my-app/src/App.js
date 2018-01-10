@@ -115,6 +115,7 @@ class App extends Component {
       setTimeout(() => { this.methods.login() }, 400)
     },
     login: () => {
+      fetch('/api/auth/twitter');
       this.setState({
         page: ''
       })
@@ -169,17 +170,15 @@ class App extends Component {
       }}));
     },
     handleAddChip: (chip) => {
-      let tags = this.state.content.tags.slice();
       this.setState((prevState) => ({content: {
         ...prevState.content,
-        tags: [...tags, chip]
+        tags: [...prevState.content.tags.slice(), chip]
       }}))
     },
     handleDeleteChip: (deletedChip) => {
-      let tags = this.state.content.tags.slice();
       this.setState((prevState) => ({content: {
         ...prevState.content,
-        tags: [...tags.filter((item) => item !== deletedChip)]
+        tags: [...prevState.content.tags.filter((item) => item !== deletedChip)]
       }}))
     },
     handleTimeChangeExt: (event, time) => {

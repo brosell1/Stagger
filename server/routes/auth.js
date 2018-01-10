@@ -12,6 +12,8 @@ passport.use(new Strategy({
   callbackURL: 'http://localhost:5000/api/auth/twitter/callback'
 }, (token, tokenSecret, profile, done) => {
   console.log(profile);
+  console.log(token);
+  console.log(tokenSecret);
   User.findOne({
     'twitterUsername': profile.username
   }, function(err, user) {
@@ -22,7 +24,8 @@ passport.use(new Strategy({
       user = new User({
         twitterName: profile.displayName,
         twitterUsername: profile.username,
-        twitter: profile._json
+        twitterToken: token,
+        twitterTokenSecret: tokenSecret
       });
       user.save(function(err) {
         if (err)
@@ -44,14 +47,17 @@ passport.deserializeUser((obj, callback) => {
 });
 
 router.get('/', function(req, res) {
+  console.log(req.session);
   res.send('Login via Twitter!');
 });
 
 router.get('/twitter', passport.authenticate('twitter'));
 
 router.get('/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login'}), function(req, res) {
-  // res.redirect('/');
-  res.sendFile('/Users/SoC11/Desktop/work/Final Project/final-project-artist-api/server/routes/ar15.jpg')
+  console.log(req.user);
+  console.log(req.session);
+  res.redirect('http://localhost:3000');
+  // res.sendFile('/Users/SoC11/Desktop/work/Final Project/final-project-artist-api/server/routes/ar15.jpg')
 });
 
 module.exports = router;
