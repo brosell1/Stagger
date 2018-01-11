@@ -115,10 +115,12 @@ class App extends Component {
       setTimeout(() => { this.methods.login() }, 400)
     },
     login: () => {
-      fetch('/api/auth/twitter');
-      this.setState({
-        page: ''
-      })
+      fetch('/api/auth/twitter').then((response) => {
+        console.log(response);
+        this.setState({
+          page: ''
+        })
+      }).catch(err => {console.log(err)});
     },
     autoTag: () => {
       let tags = this.state.content.tags.slice();

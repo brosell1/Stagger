@@ -1,15 +1,15 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const handleLogin = (event) => {
-  event.preventDefault();
-  fetch('/api/auth/twitter', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  });
-};
+// const handleLogin = (event) => {
+//   event.preventDefault();
+//   fetch('/api/auth/twitter', {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//   });
+// };
 
 const Login = (props) => {
   return(

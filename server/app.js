@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -20,11 +21,17 @@ mongoose.connect('mongodb://StaggerUser:password@ds135946.mlab.com:35946/angry-e
 var tweet = require('./routes/tweet');
 var auth = require('./routes/auth');
 var nlp = require('./routes/nlp');
-var media = require('./routes/media');
+// var media = require('./routes/media');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 app.use(session({
   secret: 'angryeyes',
   resave: true,
@@ -37,10 +44,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+
 app.use('/api/tweet/', tweet);
 app.use('/api/auth/', auth);
 app.use('/api/nlp/', nlp);
-app.use('/api/media', media);
+// app.use('/api/media', media);
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
