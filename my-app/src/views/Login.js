@@ -1,4 +1,6 @@
 import React from 'react';
+
+import TwitterLogin from 'react-twitter-auth';
 import RaisedButton from 'material-ui/RaisedButton';
 
 // const handleLogin = (event) => {
@@ -28,8 +30,14 @@ const Login = (props) => {
           secondary={true}
           disabled={true}
         /><br/><br/>
+        <TwitterLogin
+          loginUrl="http://localhost:5000/api/auth/twitter"
+          onFailure={props.onFailed} onSuccess={props.onSuccess}
+          requestTokenUrl="http://localhost:5000/api/auth/twitter/reverse"
+        />
         <RaisedButton
-          onClick={props.login}
+          // onClick={props.login}
+          onClick={() => {window.location = "http://localhost:5000/api/auth/twitter"}}
           className="button"
           target="_blank"
           label="Twitter Login"

@@ -9,7 +9,7 @@ const User = require('../models/users');
 passport.use(new Strategy({
   consumerKey: 'FFnMP0rI6pscDaXlbwPa4oCLp',
   consumerSecret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o',
-  callbackURL: 'http://127.0.0.1:5000/api/auth/twitter/callback'
+  callbackURL: 'http://localhost:5000/api/auth/twitter/callback'
 }, (token, tokenSecret, profile, done) => {
   console.log(profile);
   console.log(token);
@@ -55,7 +55,9 @@ router.get('/twitter', passport.authenticate('twitter'));
 router.get('/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login'}), function(req, res) {
   console.log(req.user);
   console.log(req.session);
-  res.json({message: 'ok'});
+  console.log(res);
+  // res.json({user: req.user});
+  res.redirect(`http://localhost:3000/${req.user.twitterUsername}`)
   // res.sendFile('/Users/SoC11/Desktop/work/Final Project/final-project-artist-api/server/routes/ar15.jpg')
 });
 

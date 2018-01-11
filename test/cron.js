@@ -17,8 +17,31 @@ mongoose.connection.on('error', function(err) {
 var schema = new mongoose.Schema({postContent: String, scheduledTime: Number, posted: Boolean});
 
 var Posts = mongoose.model('posts', schema, 'posts');
+var Users = mongoose.model('users', schema, 'users');
 
 const client = new Twitter({consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp', consumer_secret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o', access_token_key: '937705103959740416-rFYq9iQliFIKk8VofgIThEjPcoYEL8D', access_token_secret: 'PAp1jV228XEYZV5WrIhQZEzRgUjpsZSNxnSN6GiRmTTsT'});
+
+const postExt = (post) => {
+  Users.findOne({ twitterUsername: post._doc.accountsToPostTo }, (err, user) => {
+    console.log(user);
+    let clientExt = new Twitter({consumer_key: 'FFnMP0rI6pscDaXlbwPa4oCLp', consumer_secret: 'vT0UYsW1P2YVkvBIXPyB6sukYiKyGsKRikSIYJfzLCzg5Ypr4o', access_token_key: user._doc.twitterToken, access_token_secret: user._doc.twitterTokenSecret})
+    console.log(clientExt)
+    clientExt.post('statuses/update', {
+      status: `${post.postContent}`
+    }, (error, data, response) => {
+      if (error)
+        throw error;
+      console.log(data); // Tweet body.
+      post.posted = true;
+      post.save((err, item) => {
+        if (err)
+          throw err;
+        console.log('Posted', item);
+      });
+      // res.json({payload: data});
+    });
+  });
+};
 
 var job = new CronJob('0 * * * * *', () => {
   console.log('Checking the database every minute');
@@ -32,20 +55,8 @@ var job = new CronJob('0 * * * * *', () => {
     if (!posts || posts.length == 0)
       return;
     posts.map(post => {
-      client.post('statuses/update', {
-        status: `${post.postContent}`
-      }, (error, data, response) => {
-        if (error)
-          throw error;
-        console.log(data); // Tweet body.
-        post.posted = true;
-        post.save((err, item) => {
-          if (err)
-            throw err;
-          console.log('Posted', item);
-        })
-        // res.json({payload: data});
-      });
+      console.log(post)
+      postExt(post);
     });
   });
 }, null, false, 'Europe/Dublin');

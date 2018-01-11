@@ -5,7 +5,7 @@ const postSchema = {
       postContent: String,
       postMedia: String,
       scheduledTime: Number,
-      accountsToPostTo: [Object],
+      accountsToPostTo: String,
       posted: {type: Boolean, default: false}
 }
 

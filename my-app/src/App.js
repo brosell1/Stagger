@@ -15,6 +15,7 @@ class App extends Component {
       page: 'login',
       drawer: false,
       content: {
+        user: '',
         tweet: "",
         media: undefined,
         tags: [],
@@ -30,6 +31,28 @@ class App extends Component {
     };
   };
 
+  componentDidMount() {
+    let details = window.location.pathname.slice(1);
+    if(details.length > 0) {
+      this.setState(prevState => ({
+        content: {...prevState.content, user: details},
+        page: ''
+      }));
+    };
+  };
+
+  onSuccess = (response) => {
+    const token = response.headers.get('x-auth-token');
+    response.json().then(user => {
+      if (token) {
+        this.setState({isAuthenticated: true, user: user, token: token});
+      }
+    });
+  };
+
+  onFailed = (error) => {
+    alert(error);
+  };
 
   resetFields = () => {
     let prevState = this.state.content;
@@ -72,10 +95,9 @@ class App extends Component {
         },
         body: JSON.stringify(this.state.content)
       })
-      .then(res => res.json()).then(res => console.log(res))
+      // .then(res => res.json()).then(res => console.log(res))
       this.resetFields();
     },
-    queueTweet: () => {/* do something */},
     scheduleTweet: (event) => {
       event.preventDefault();
       if(this.state.content.tweet.trim()) {
@@ -115,12 +137,16 @@ class App extends Component {
       setTimeout(() => { this.methods.login() }, 400)
     },
     login: () => {
-      fetch('/api/auth/twitter').then((response) => {
-        console.log(response);
-        this.setState({
-          page: ''
-        })
-      }).catch(err => {console.log(err)});
+      this.setState({
+        page: ''
+      })
+    },
+    logout: () => {
+      this.setState({
+        page: 'login',
+        twitterToken: '',
+        twitterTokenSecret: '',
+      })
     },
     autoTag: () => {
       let tags = this.state.content.tags.slice();
@@ -228,6 +254,8 @@ class App extends Component {
 
       {this.state.page === 'login' ? <Login
         login={this.methods.fakeLogin}
+        onSuccess={this.onSuccess}
+        onFailed={this.onFailed}
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
       /> : <Post

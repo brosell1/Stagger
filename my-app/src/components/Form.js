@@ -20,10 +20,10 @@ const Form = (props) => {
         fullWidth={true}
       />
       <ChipInput
-        hintText="Enter your tags, separated by a space!"
+        hintText="Type a tag, and press enter to add it!"
         // onChange={props.methods.handleTagsChange}
         value={props.content.tags}
-        onRequestAdd={(chip) => props.methods.handleAddChip(chip)}
+        onRequestAdd={(chip) => props.methods.handleAddChip(chip.split(" ").join(""))}
         onRequestDelete={chip => props.methods.handleDeleteChip(chip)}
         name="tags"
         fullWidth={true}
