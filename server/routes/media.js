@@ -14,27 +14,28 @@ const client = new Twitter({
   access_token_secret: 'PAp1jV228XEYZV5WrIhQZEzRgUjpsZSNxnSN6GiRmTTsT'
 });
 
+// router.post('media/pic', (req, res) => {
+
+  function uploadImage(){
+
+    console.log('Opening an image...');
+
+    var image_path = path.join(__dirname, '/ar15.jpg'),
+        b64content = fs.readFileSync(image_path, { encoding: 'base64' });
+
+    console.log('Uploading an image...');
 
 
-function uploadImage(){
+    client.post('media/upload', { media_data: b64content }, function (err, data, response) {
+      if (err){
+        console.log('ERROR');
+        console.log(err);
+      }
+      else{
+        console.log('Uploaded an image!');
 
-  console.log('Opening an image...');
-  var image_path = path.join(__dirname, '/ar15.jpg'),
-      b64content = fs.readFileSync(image_path, { encoding: 'base64' });
-  console.log('Uploading an image...');
-
-
-  router.post('media/upload', { media_data: b64content }, function (err, data, response) {
-    if (err){
-      console.log('ERROR');
-      console.log(err);
-    }
-    else{
-      console.log('Uploaded an image!');
-
-      router.post('statuses/update', {status: `${req.body.media}`}) {
-        // media_ids: new Array(data.media_id_string)
-        // //do something
+    client.post('statuses/update', {
+        media_ids: new Array(data.media_id_string)
       },
         function(err, data, response) {
           if (err){
@@ -42,14 +43,15 @@ function uploadImage(){
             console.log(err);
           }
           else{
-            // console.log('Posted an image!');
-            // do something
+            console.log('Posted an image!');
           }
         }
       );
     }
   });
 }
+
+// });
 
 
 module.exports = router;
