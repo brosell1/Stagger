@@ -17,6 +17,7 @@
     "eslint": "^4.12.1",
     "express": "~4.15.5",
     "express-session": "^1.15.6",
+    "giphy-js-sdk-core": "^1.0.3",
     "husky": "^0.14.3",
     "jade": "~1.11.0",
     "mongoose": "^4.13.6",
