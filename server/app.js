@@ -21,6 +21,7 @@ var tweet = require('./routes/tweet');
 var login = require('./routes/auth');
 var nlp = require('./routes/nlp');
 var media = require('./routes/media');
+var giphy = require('./routes/giphy');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -41,6 +42,7 @@ app.use('/api/tweet/', tweet);
 app.use('/api/auth/', login);
 app.use('/api/nlp/', nlp);
 app.use('/api/media', media);
+app.use('/api/giphy', giphy);
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
