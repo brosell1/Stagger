@@ -5,6 +5,7 @@ import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 const stagger = <span style={{
   color: '#536DFE',
@@ -25,6 +26,8 @@ const Header = (props) => {
       className="headerBar"
       title={stagger}
       onLeftIconButtonClick={props.changeDrawer}
+      onRightIconButtonClick={props.logout}
+      iconElementRight={<RaisedButton label="logout" />}
     />
   )
 }

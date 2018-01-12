@@ -41,30 +41,20 @@ class App extends Component {
     };
   };
 
-  onSuccess = (response) => {
-    const token = response.headers.get('x-auth-token');
-    response.json().then(user => {
-      if (token) {
-        this.setState({isAuthenticated: true, user: user, token: token});
-      }
-    });
-  };
-
-  onFailed = (error) => {
-    alert(error);
-  };
-
   resetFields = () => {
-    let prevState = this.state.content;
-    prevState.tweet = "";
-    prevState.tags = [];
-    this.setState({
-      content: prevState,
+    this.setState(prevState => ({
+      content: {
+        ...prevState.content,
+        tweet: "",
+        tags: [],
+        date: null,
+        time: null,
+      },
       popup:{
         open: true,
         statusOk: true,
       },
-    });
+    }));
     console.log("thanks for posting to twitter");
   }
 
@@ -142,10 +132,9 @@ class App extends Component {
       })
     },
     logout: () => {
+      window.location.pathname = '/';
       this.setState({
         page: 'login',
-        twitterToken: '',
-        twitterTokenSecret: '',
       })
     },
     autoTag: () => {
@@ -245,6 +234,7 @@ class App extends Component {
         drawer={this.state.drawer}
         page={this.state.page}
         changeDrawer={this.methods.changeDrawer}
+        logout={this.methods.logout}
       />
       <Sidebar
         changeDrawer={this.methods.changeDrawer}
@@ -258,6 +248,7 @@ class App extends Component {
         onFailed={this.onFailed}
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
+        user={this.state.content.user}
       /> : <Post
         postMethods={this.postMethods}
         methods={this.methods}

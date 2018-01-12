@@ -26,12 +26,6 @@ const postExt = (req) => {
       if (error)
         throw error;
       console.log(data); // Tweet body.
-      post.posted = true;
-      post.save((err, item) => {
-        if (err)
-          throw err;
-        console.log('Posted', item);
-      });
       // res.json({payload: data});
     });
   });
@@ -42,7 +36,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getQueue', (req, res, next) => {
-  Post.find({ posted: false }, (err, posts) => res.json(posts));
+  Post.find({ posted: false, accountsToPostTo: req.query.user }, (err, posts) => res.json(posts));
 })
 
 router.post('/text', (req, res) => {

@@ -13,7 +13,7 @@ class Queue extends Component {
     }
   }
   componentWillMount() {
-    fetch('/api/tweet/getQueue').then(res => res.json()).then(res => this.setState({queue: [...res]}));
+    fetch(`/api/tweet/getQueue?user=${this.props.user}`).then(res => res.json()).then(res => this.setState({queue: [...res]}));
   }
 
   render() {
