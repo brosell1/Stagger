@@ -8,6 +8,8 @@ import Sidebar from './components/Sidebar.js';
 import Header from './components/Header.js';
 import AccountPopup from './components/AccountPopup.js'
 
+import antlers from './antlers.svg';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -256,6 +258,7 @@ class App extends Component {
         open={this.state.popup.open}
         statusOk={this.state.popup.statusOk}
       />}
+      <div className="bg"><img src={antlers}/></div>
       <div className="flourish" />
       <div className="gradient" />
     </div>);

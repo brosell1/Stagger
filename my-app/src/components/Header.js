@@ -23,11 +23,11 @@ const Header = (props) => {
       </h1>
     </Paper> : <AppBar
       iconElementLeft={<IconButton>{props.drawer === true ? <ChevronLeft /> : <ChevronRight />}</IconButton>}
+      iconElementRight={<RaisedButton label="logout" />}
       className="headerBar"
       title={stagger}
       onLeftIconButtonClick={props.changeDrawer}
       onRightIconButtonClick={props.logout}
-      iconElementRight={<RaisedButton label="logout" />}
     />
   )
 }
