@@ -51,6 +51,7 @@ class App extends Component {
         tags: [],
         date: null,
         time: null,
+        media: undefined,
       },
       popup:{
         open: true,
@@ -80,13 +81,26 @@ class App extends Component {
         route = 'media';
       };
       console.log(route);
-      fetch('/api/tweet/' + route, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.state.content)
-      })
+      if(route === 'tweet') {
+        fetch('/api/tweet/' + route, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.state.content)
+        })
+      } else if (route === 'media') {
+        var formData  = new FormData();
+        formData.append('content', this.state.content);
+        console.log(formData);
+        fetch('/api/tweet/media', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          body: this.state.content,
+        }).then(res => res.json().then(res => console.log(res)))
+      }
       // .then(res => res.json()).then(res => console.log(res))
       this.resetFields();
     },
@@ -167,6 +181,13 @@ class App extends Component {
       this.setState((prevState) => ({content: {
         ...prevState.content,
         tweet: val
+      }}))
+    },
+    handleMediaChange: (event) => {
+      const val = event.target.value;
+      this.setState((prevState) => ({content: {
+        ...prevState.content,
+        media: val
       }}))
     },
     handleTagsChange: (event) => {
@@ -258,7 +279,7 @@ class App extends Component {
         open={this.state.popup.open}
         statusOk={this.state.popup.statusOk}
       />}
-      <div className="bg"><img src={antlers}/></div>
+      <div className="bg"><img alt='' src={antlers}/></div>
       <div className="flourish" />
       <div className="gradient" />
     </div>);

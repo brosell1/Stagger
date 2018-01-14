@@ -28,6 +28,7 @@ const Form = (props) => {
         name="tags"
         fullWidth={true}
       />
+      <input type='file' accept='image/*' value={props.content.media} onChange={props.methods.handleMediaChange}></input>
       {/* <input onChange={props.methods.onChange} value={props.content.media} name="media" type="file" /><br/> */}
       {/* <input type="submit" /> */}
       <MediaQuery minWidth={850}>

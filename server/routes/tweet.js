@@ -43,6 +43,10 @@ router.post('/text', (req, res) => {
   postExt(req);
 });
 
+router.post('/media', (req, res) => {
+  console.log('request: ', req.body);
+})
+
 router.post('/schedule', (req, res) => {
   console.log(req.body);
   const { tweet, timeStamp, tags, user } = req.body;
