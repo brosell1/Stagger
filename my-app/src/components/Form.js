@@ -1,13 +1,9 @@
 import React from 'react';
+import MediaQuery from 'react-responsive';
 
 import ChipInput from 'material-ui-chip-input';
 import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import TextField from 'material-ui/TextField';
-// import Toggle from 'material-ui/Toggle';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
 
 import DateTime from '../components/DateTime';
 
@@ -24,16 +20,17 @@ const Form = (props) => {
         fullWidth={true}
       />
       <ChipInput
-        hintText="Enter your tags, separated by a space!"
+        hintText="Type a tag, and press enter to add it!"
         // onChange={props.methods.handleTagsChange}
         value={props.content.tags}
-        onRequestAdd={(chip) => props.methods.handleAddChip(chip)}
+        onRequestAdd={(chip) => props.methods.handleAddChip(chip.split(" ").join(""))}
         onRequestDelete={chip => props.methods.handleDeleteChip(chip)}
         name="tags"
         fullWidth={true}
       />
       {/* <input onChange={props.methods.onChange} value={props.content.media} name="media" type="file" /><br/> */}
       {/* <input type="submit" /> */}
+      <MediaQuery minWidth={850}>
       <div style={{
         display:'flex',
         flexDirection: 'row',
@@ -52,15 +49,56 @@ const Form = (props) => {
           handleDateChange={props.methods.handleDateChangeExt}
           handleTimeChange={props.methods.handleTimeChangeExt}
         />
-        <IconMenu
-          iconButtonElement={<IconButton><MoreVert /></IconButton>}
-          anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
-        >
-          <MenuItem primaryText="Post Now" onClick={props.postMethods.sendTweet}/>
-          <MenuItem primaryText="Schedule" onClick={props.postMethods.scheduleTweet}/>
-        </IconMenu>
+        <div>
+          <RaisedButton
+            label="Schedule"
+            onClick={props.postMethods.scheduleTweet}
+          />
+        {/* <div>
+        </div> */}
+          <RaisedButton
+            style={{borderLeft: '1px solid white'}}
+            label="Post"
+            onClick={props.postMethods.sendTweet}
+          />
+        </div>
       </div>
+      </MediaQuery>
+      <MediaQuery maxWidth={850}>
+        <DateTime
+          date={props.content.date}
+          time={props.content.time}
+          timeStamp={props.content.timeStamp}
+          handleDateChange={props.methods.handleDateChangeExt}
+          handleTimeChange={props.methods.handleTimeChangeExt}
+        />
+        <div style={{
+          display:'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+          <div>
+            <RaisedButton
+              label="Autotag"
+              onClick={props.methods.autoTag}
+            />
+          </div>
+          <div>
+            <RaisedButton
+              style={{ borderLeft: '1px solid white'}}
+              label="Schedule"
+              onClick={props.postMethods.scheduleTweet}
+            />
+          </div>
+          <div>
+            <RaisedButton
+              style={{ borderLeft: '1px solid white'}}
+              label="Post"
+              onClick={props.postMethods.sendTweet}
+            />
+          </div>
+        </div>
+      </MediaQuery>
     </form>
   );
 };

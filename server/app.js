@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -18,7 +19,7 @@ var app = express();
 mongoose.connect('mongodb://StaggerUser:password@ds135946.mlab.com:35946/angry-eyes', {useMongoClient: true});
 
 var tweet = require('./routes/tweet');
-var login = require('./routes/auth');
+var auth = require('./routes/auth');
 var nlp = require('./routes/nlp');
 var media = require('./routes/media');
 var giphy = require('./routes/giphy');
@@ -26,8 +27,14 @@ var giphy = require('./routes/giphy');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 app.use(session({
-  secret: 'thisisasecret',
+  secret: 'angryeyes',
   resave: true,
   saveUninitialized: true
 }));
@@ -38,8 +45,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+
 app.use('/api/tweet/', tweet);
-app.use('/api/auth/', login);
+app.use('/api/auth/', auth);
 app.use('/api/nlp/', nlp);
 app.use('/api/media', media);
 app.use('/api/giphy', giphy);

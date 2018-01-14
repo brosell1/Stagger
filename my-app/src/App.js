@@ -8,6 +8,8 @@ import Sidebar from './components/Sidebar.js';
 import Header from './components/Header.js';
 import AccountPopup from './components/AccountPopup.js'
 
+import antlers from './antlers.svg';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +17,7 @@ class App extends Component {
       page: 'login',
       drawer: false,
       content: {
+        user: '',
         tweet: "",
         media: undefined,
         tags: [],
@@ -30,18 +33,30 @@ class App extends Component {
     };
   };
 
+  componentDidMount() {
+    let details = window.location.pathname.slice(1);
+    if(details.length > 0) {
+      this.setState(prevState => ({
+        content: {...prevState.content, user: details},
+        page: ''
+      }));
+    };
+  };
 
   resetFields = () => {
-    let prevState = this.state.content;
-    prevState.tweet = "";
-    prevState.tags = [];
-    this.setState({
-      content: prevState,
+    this.setState(prevState => ({
+      content: {
+        ...prevState.content,
+        tweet: "",
+        tags: [],
+        date: null,
+        time: null,
+      },
       popup:{
         open: true,
         statusOk: true,
       },
-    });
+    }));
     console.log("thanks for posting to twitter");
   }
 
@@ -72,10 +87,9 @@ class App extends Component {
         },
         body: JSON.stringify(this.state.content)
       })
-      .then(res => res.json()).then(res => console.log(res))
+      // .then(res => res.json()).then(res => console.log(res))
       this.resetFields();
     },
-    queueTweet: () => {/* do something */},
     scheduleTweet: (event) => {
       event.preventDefault();
       if(this.state.content.tweet.trim()) {
@@ -117,6 +131,12 @@ class App extends Component {
     login: () => {
       this.setState({
         page: ''
+      })
+    },
+    logout: () => {
+      window.location.pathname = '/';
+      this.setState({
+        page: 'login',
       })
     },
     autoTag: () => {
@@ -169,17 +189,15 @@ class App extends Component {
       }}));
     },
     handleAddChip: (chip) => {
-      let tags = this.state.content.tags.slice();
       this.setState((prevState) => ({content: {
         ...prevState.content,
-        tags: [...tags, chip]
+        tags: [...prevState.content.tags.slice(), chip]
       }}))
     },
     handleDeleteChip: (deletedChip) => {
-      let tags = this.state.content.tags.slice();
       this.setState((prevState) => ({content: {
         ...prevState.content,
-        tags: [...tags.filter((item) => item !== deletedChip)]
+        tags: [...prevState.content.tags.filter((item) => item !== deletedChip)]
       }}))
     },
     handleTimeChangeExt: (event, time) => {
@@ -218,6 +236,7 @@ class App extends Component {
         drawer={this.state.drawer}
         page={this.state.page}
         changeDrawer={this.methods.changeDrawer}
+        logout={this.methods.logout}
       />
       <Sidebar
         changeDrawer={this.methods.changeDrawer}
@@ -227,8 +246,11 @@ class App extends Component {
 
       {this.state.page === 'login' ? <Login
         login={this.methods.fakeLogin}
+        onSuccess={this.onSuccess}
+        onFailed={this.onFailed}
       /> : this.state.page === 'queue' ? <Queue
         changeView={this.methods.changeView}
+        user={this.state.content.user}
       /> : <Post
         postMethods={this.postMethods}
         methods={this.methods}
@@ -236,6 +258,7 @@ class App extends Component {
         open={this.state.popup.open}
         statusOk={this.state.popup.statusOk}
       />}
+      <div className="bg"><img src={antlers}/></div>
       <div className="flourish" />
       <div className="gradient" />
     </div>);

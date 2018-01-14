@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import QueuedPost from '../components/QueuedPost.js';
+import HistoryPost from '../components/HistoryPost.js';
 
 class Queue extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Queue extends Component {
     }
   }
   componentWillMount() {
-    fetch('/api/tweet/getQueue').then(res => res.json()).then(res => this.setState({queue: [...res]}));
+    fetch(`/api/tweet/getQueue?user=${this.props.user}`).then(res => res.json()).then(res => this.setState({queue: [...res]}));
   }
 
   render() {
@@ -32,8 +33,9 @@ class Queue extends Component {
           disabled={true}
         />
         <div>
-          {this.state.queue.map(item => <QueuedPost body={item.postContent} time={`${new Date(item.scheduledTime)}`}/>)}
+          {this.state.queue.map(item => <QueuedPost key={item._id} body={item.postContent} time={`${new Date(item.scheduledTime)}`}/>)}
         </div>
+        {!this.state.queue && <span>There's nothing in the queue! Go and schedule some posts!</span>}
       </div>
     </div>
     );
