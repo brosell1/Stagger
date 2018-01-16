@@ -33,7 +33,7 @@ class Queue extends Component {
           disabled={true}
         />
         <div>
-          {this.state.queue.map(item => <QueuedPost key={item._id} body={item.postContent} time={`${new Date(item.scheduledTime)}`}/>)}
+          {this.state.queue.map(item => <QueuedPost key={item._id} body={item.postContent} time={new Date(item.scheduledTime)}/>)}
         </div>
         {!this.state.queue && <span>There's nothing in the queue! Go and schedule some posts!</span>}
       </div>

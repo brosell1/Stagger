@@ -27,7 +27,7 @@ const Login = (props) => {
           label="Twitter Login"
           secondary={true}
         />
-      <div className='footer'>Brought to you by Sharon Fruit and Big Ben</div>
+      {/* <div className='footer'>Brought to you by Sharon Fruit and Big Ben</div> */}
     </div>
   )
 }

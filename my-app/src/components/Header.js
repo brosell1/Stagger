@@ -12,12 +12,12 @@ const stagger = <span style={{
   fontFamily: 'Source Sans Pro, sans-serif',
   fontSize: '2em',
   textShadow: '1px 1px 0 #3F51B5, -1px -1px 0 #3F51B5, 1px -1px 0 #3F51B5, -1px 1px 0 #3F51B5, 1px 1px 0 #3F51B5'
-}}>s<span style={{color: '#1de9b6'}}>tag</span>ger<span style={{color: '#1de9b6'}}>.</span>tech</span>
+}}>s<span style={{color: '#1de9b6'}}>tag</span>ger<span style={{color: '#1de9b6'}}>{/*.</span>tech*/}</span></span>
 
 const Header = (props) => {
   return(
     props.page === "login" ? <Paper
-    zDepth={2} className="headerBar">
+    style={{'z-index': '-9'}} zDepth={2} className="headerBar">
       <h1>
         {stagger}
       </h1>
