@@ -1,15 +1,6 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 
-const handleLogin = (event) => {
-  event.preventDefault();
-  fetch('/api/auth/twitter', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  });
-};
+import RaisedButton from 'material-ui/RaisedButton';
 
 const Login = (props) => {
   return(
@@ -29,13 +20,14 @@ const Login = (props) => {
           disabled={true}
         /><br/><br/>
         <RaisedButton
-          onClick={props.login}
+          // onClick={props.login}
+          onClick={() => {window.location = "http://localhost:5000/api/auth/twitter"}}
           className="button"
           target="_blank"
           label="Twitter Login"
           secondary={true}
         />
-      <div className='footer'>Brought to you by Sharon Fruit and Big Ben</div>
+      {/* <div className='footer'>Brought to you by Sharon Fruit and Big Ben</div> */}
     </div>
   )
 }

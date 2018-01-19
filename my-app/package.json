@@ -8,10 +8,14 @@
     "@storybook/cli": "^3.2.17",
     "@storybook/react": "^3.2.17",
     "material-ui": "^0.20.0",
+    "material-ui-chip-input": "^0.18.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-file-input": "^0.2.5",
+    "react-responsive": "^4.0.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "react-twitter-auth": "0.0.10",
     "storybook-addon-material-ui": "^0.8.2"
   },
   "scripts": {
